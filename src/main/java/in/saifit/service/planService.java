@@ -5,7 +5,7 @@ import java.util.Map;
 
 import in.saifit.entities.Plan;
 
-public interface planService {
+public interface PlanService {
 	
 	public Map<Integer , String> getPlanCategories();
 	

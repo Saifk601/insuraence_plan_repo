@@ -14,14 +14,24 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import in.saifit.constants.AppConstants;
 import in.saifit.entities.Plan;
-import in.saifit.service.planService;
+import in.saifit.properties.AppProperties;
+import in.saifit.service.PlanService;
 
 @RestController
 public class PlanRestController {
 	
-	@Autowired
-	private planService plSer;
+	private PlanService plSer;
+	
+	private Map<String , String> messages ;
+	
+	public PlanRestController(PlanService plSer , AppProperties appProps) {
+		
+		this.plSer = plSer;
+		this.messages = appProps.getMessages();
+		
+	}
 	
 	@GetMapping("/categories")
 	public ResponseEntity<Map<Integer , String>> planCategories(){
@@ -33,12 +43,13 @@ public class PlanRestController {
 	@PostMapping("/plan")
 	public ResponseEntity<String> SavePlan(@RequestBody Plan plan){
 		
-		String msg = "";
+		String msg = AppConstants.EMPTY_STR;
+	
 		boolean savePlan = plSer.savePlan(plan);
 	    if(savePlan) {
-	    	msg = "Plan save successfully";
+	    	msg = messages.get(AppConstants.PLAN_SAVE_SUCC);
 	    }else {
-	    	msg = "Plan are not Saved";
+	    	msg = messages.get(AppConstants.PLAN_NOT_SAVE);
 	    }
 		return new ResponseEntity<>(msg , HttpStatus.CREATED);
 	 }
@@ -59,25 +70,27 @@ public class PlanRestController {
 	 
 	 @PutMapping("/plan")
 	 public ResponseEntity<String> updatePlan(@RequestBody Plan plan){
-		 String msg2 = "";
+		 String msg2 = AppConstants.EMPTY_STR;
+		 
 		 boolean updatePlan = plSer.updatePlan(plan);
 		 if(updatePlan) {
-			 msg2 = "plan  updated";
+			 msg2 = messages.get(AppConstants.PLAN_UPDATED);
 		 }else {
-			 msg2 = "Plan Not Updated";
+			 msg2 = messages.get(AppConstants.PLAN_NOT_UPDATED);
 		 }
 		 return new ResponseEntity<>(msg2 , HttpStatus.OK);
 	 }
 	 
 	 @DeleteMapping("plans/{planId}")
 	 public ResponseEntity<String> deletePlan(@PathVariable Integer planId){
-		 String msg1 = "";
+		 String msg1 = AppConstants.EMPTY_STR;
+		 
 		 boolean planById = plSer.deletePlanById(planId);
 		 
 		 if(planById) {
-			 msg1 = "Plan deleted successfully";
+			 msg1 = messages.get(AppConstants.PLAN_DELETE_SUCC);
 		 }else {
-			 msg1 = "Plan are not delete";
+			 msg1 = messages.get(AppConstants.PLAN_NOT_DELETE);
 		 }
 		 
 		 return new ResponseEntity<>(msg1 , HttpStatus.OK);
@@ -85,12 +98,13 @@ public class PlanRestController {
 	 
 	 @PutMapping("/status-change/{planId}/{status}")
 	 public ResponseEntity<String> statusChange(@PathVariable Integer planId , @PathVariable String status){
-		 String sta = "";
+		 String sta = AppConstants.EMPTY_STR;
+		 
 		 boolean statusChange = plSer.planStatusChange(planId, status);
 		 if(statusChange) {
-			 sta = "status changed";
+			 sta = messages.get(AppConstants.STATUS_CHANGE);
 		 }else {
-			 sta = "status not changed";
+			 sta = messages.get(AppConstants.STATUS_NOT_CHANGED);
 		 }
 		 
 		 return new ResponseEntity<>(sta , HttpStatus.OK);

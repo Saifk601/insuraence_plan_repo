@@ -12,17 +12,19 @@ import org.springframework.util.PropertyPlaceholderHelper.PlaceholderResolver;
 import in.saifit.entities.Plan;
 import in.saifit.entities.PlanCategory;
 import in.saifit.repo.PlanRepo;
-import in.saifit.repo.planCategoryRepo;
-import in.saifit.service.planService;
+import in.saifit.repo.PlanCategoryRepo;
+import in.saifit.service.PlanService;
 
 @Service
-public class planServiceImpl implements planService {
+public class PlanServiceImpl implements PlanService {
     
 	@Autowired
-	private planCategoryRepo planCategory;
+	private PlanCategoryRepo planCategory;
 	
 	@Autowired
 	private PlanRepo planRepo;
+	
+	
 
 	@Override
 	public Map<Integer, String> getPlanCategories() {

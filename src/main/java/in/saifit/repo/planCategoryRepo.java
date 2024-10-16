@@ -4,6 +4,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import in.saifit.entities.PlanCategory;
 
-public interface planCategoryRepo extends JpaRepository<PlanCategory , Integer>{
+public interface PlanCategoryRepo extends JpaRepository<PlanCategory , Integer>{
 
 }
